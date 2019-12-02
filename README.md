@@ -53,6 +53,22 @@ $ docker run -it -e EXPORTER_PORT=9103 -p 9103:9103 raspbi-temperature-exporter:
 
 You can also download it from docker hub via `docker pull lukasbahr/raspbi-temperature-exporter:arm32v6`
 
+usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-g GPIOPIN]
+                   [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+
+Prometheus DHT22 sensor exporter
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NODE, --node NODE  The node, the exporter runs on
+  -p PORT, --port PORT  The port, the exporter runs on
+  -i INTERVAL, --interval INTERVAL
+                        The sleep interval of the exporter
+  -g GPIOPIN, --gpiopin GPIOPIN
+                        The GPIO pin, where the sensor is connected to
+  -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        Set the logging level
+
 ## Open ToDo's
 
 - [OPEN] Add CI/CD Support

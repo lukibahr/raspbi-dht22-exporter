@@ -2,35 +2,51 @@
 """
 Prometheus running in kubernetes will automatically scrape this service.
 """
-import os
+
+import time
+import argparse
 import logging
-from prometheus_client import start_http_server, Gauge
-from w1thermsensor import W1ThermSensor
+import socket
+import Adafruit_DHT
+from prometheus_client.core import GaugeMetricFamily, REGISTRY
+from prometheus_client import start_http_server
 
-# Create a metric to track time spent and requests made.
-G = Gauge('temp_in_celcius', 'Temperature in celcuis', ['sensor'])
-SENSOR = W1ThermSensor()
+SENSOR = Adafruit_DHT.DHT22
 LOGFORMAT = "%(asctime)s - %(levelname)s [%(name)s] %(threadName)s %(message)s"
-logging.basicConfig(level=logging.INFO, format=LOGFORMAT)
 
-def process_temperature():
-    """ a function to process the temperature """
-    
-    """for mutliple Sensors"""
+class CustomCollector():
+    """
+    Class CustomCollector implements the collect function
+    """
+    def __init__(self, node=None, pin=None):
+        self.node = node
+        self.pin = pin
 
-    for SENSOR in W1ThermSensor.get_available_sensors():
-	logging.info("Sensor %s has temperature %.2f" % (SENSOR.id, SENSOR.get_temperature()))
-     	G.labels("%s" % SENSOR.id).set("%.2f" % SENSOR.get_temperature())
+    def collect(self):
+        """collect collects the metrics"""
+        humidity, temperature = Adafruit_DHT.read_retry(SENSOR, self.pin)
+        g = GaugeMetricFamily("temperature_in_celcius", 'Temperature in celcuis', labels=['node'])
+        g.add_metric([self.node], temperature)
+        yield g
 
+        c = GaugeMetricFamily("humidity_in_percent", 'Humidity in percent', labels=['node'])
+        c.add_metric([self.node], humidity)
+        yield c
 
 if __name__ == '__main__':
-    # Start up the server to expose the metrics.
-    if 'EXPORTER_PORT' in os.environ:  
-        
-        logging.info("Running exporter on port: %s", os.getenv('EXPORTER_PORT'))
-        start_http_server(int(os.getenv('EXPORTER_PORT')))
-        # call process temperature function
-        while True:
-            process_temperature()
-    else:
-        logging.error("EXPORTER_PORT variable is not set.")
+    parser = argparse.ArgumentParser(description='Prometheus DHT22 sensor exporter')
+    parser.add_argument('-n', '--node', type=str, help='The node, the exporter runs on', default=socket.gethostname())
+    parser.add_argument('-p', '--port', type=int, help='The port, the exporter runs on', default=9123)
+    parser.add_argument('-i', '--interval', type=int, help='The sleep interval of the exporter', default=120)
+    parser.add_argument('-g', '--gpiopin', type=int, help='The GPIO pin, where the sensor is connected to', default=4)
+    parser.add_argument("-l", "--loglevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], help="Set the logging level")
+    args = parser.parse_args()
+    if args.loglevel:
+        logging.basicConfig(level=getattr(logging, args.loglevel), format=LOGFORMAT)
+    logging.debug("Parsing command line arguments: %s", args)
+    logging.info("Running exporter on port %s", args.port)
+    start_http_server(args.port)
+    REGISTRY.register(CustomCollector(args.node, args.gpiopin))
+    while True:
+        logging.debug("Sleeping for %s seconds", args.interval)
+        time.sleep(args.interval)
