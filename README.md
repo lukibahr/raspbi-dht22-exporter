@@ -47,11 +47,12 @@ You can run the exporter either via python itself or in a docker container. The 
 also in the supplied Makefile. For docker use:
 
 ```bash
-$ docker build -t raspbi-temperature-exporter:arm32v6 -f Dockerfile .
-$ docker run -it -e EXPORTER_PORT=9103 -p 9103:9103 raspbi-temperature-exporter:arm32v6
+$ docker build -t raspbi-dht22-exporter:arm32v6 -f Dockerfile .
+$ docker tag raspbi-dht22-exporter:arm32v6 lukasbahr/raspbi-dht22-exporter:arm32v6
+$ docker run -it -e EXPORTER_PORT=9103 -p 9103:9103 raspbi-dht22-exporter:arm32v6
 ```
 
-You can also download it from docker hub via `docker pull lukasbahr/raspbi-temperature-exporter:arm32v6`
+You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22-exporter:arm32v6`
 
 usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-g GPIOPIN]
                    [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
