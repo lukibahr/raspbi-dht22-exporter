@@ -1,10 +1,10 @@
-FROM python:3.7-alpine3.9
+FROM hypriot/rpi-alpine:3.6
 
-RUN apk update && apk add python py-pip
+RUN apk update && apk add python3
 
 WORKDIR "/exporter"
 ADD src .
-ADD requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip3 install Adafruit_DHT --force-pi
 
-ENTRYPOINT ["python", "endpoint.py"]
+
+ENTRYPOINT ["python3", "exporter.py"]
