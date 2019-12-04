@@ -5,8 +5,8 @@ RUNLINT = $(shell which pylint)
 RUNPIP = $(shell which pip)
 RUNDOCKER = $(shell which docker) 
 
-IMAGE = lukasbahr/raspbi-temperature-exporter
-VERSION = arm32v6
+IMAGE = lukasbahr/raspbi-dht22-exporter
+VERSION = master
 
 EXPORTER_PORT=8888
 
