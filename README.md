@@ -72,7 +72,7 @@ optional arguments:
 
 ## Open ToDo's
 
-- [OPEN] Add CI/CD Support
+- [OPEN] Add CI/CD Support. The ci process must detect the underlying system as a raspberry pi in order to install AdafruitDHT22
 - [OPEN] Add unit tests
 - [OPEN] use buildx to create the proper image
 - [OPEN] Add health metric, error metric, scrape interval, general information about exporter etc.
