@@ -13,7 +13,7 @@ EXPORTER_PORT=8888
 all: requirements lint run
  
 lint: 
-	$(RUNLINT) $(PWD)/src/endpoint.py
+	$(RUNLINT) $(PWD)/src/exporter.py
 
 requirements:
 	$(RUNPIP) install -r requirements.txt --user

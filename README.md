@@ -2,11 +2,10 @@
 
 Prometheus Endpoint, written in Python to read DHT11 1wire sensor and exposes temperature values as a prometheus metric.
 
-## [TODO]
+## Prerequisites - Wiring the sensor
 
-## Prerequisites
+t.b.d.
 
-Make sure, you have the required kernel modules loaded. To do so, follow these steps:
 
 ```bash
 $ sudo modprobe w1-gpio
@@ -14,12 +13,6 @@ $ sudo modprobe w1-therm
 $ sudo echo "dtoverlay=w1-gpio" >> /boot/config.txt #to enable 1-wire config and persist after reboot
 $ lsmod #check if modules are loaded correctly
 $ sudo reboot
-```
-
-After your pi has been rebooted, check if you can list the attached 1-wire devices
-
-```bash
-$ ls /sys/bus/w1/devices/
 ```
 
 ## Implementation
@@ -35,25 +28,15 @@ You'll need to install python (I recommend python3) to prepare your local enviro
 $ sudo apt-get update
 $ sudo apt-get install python3-pip
 $ sudo python3 -m pip install --upgrade pip setuptools wheel
+$ sudo pip3 install prometheus_client Adafruit_DHT
+$ python3 exporter.py --< args[] >
 ```
 
-## Dockerrization
+## Running in docker
 
 I've used hypriot os with a RaspberryPi 3B+. It works on a Raspberry Pi 2 too, although docker builds might take some time, so be calm to your Pi.
 
-## Building and running
-
-You can run the exporter either via python itself or in a docker container. The required commands for running it via python are 
-also in the supplied Makefile. For docker use:
-
 ```bash
-$ docker build -t raspbi-dht22-exporter:arm32v6 -f Dockerfile .
-$ docker tag raspbi-dht22-exporter:arm32v6 lukasbahr/raspbi-dht22-exporter:arm32v6
-$ docker run -it -e EXPORTER_PORT=9103 -p 9103:9103 raspbi-dht22-exporter:arm32v6
-```
-
-You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22-exporter:arm32v6`
-
 usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-g GPIOPIN]
                    [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
 
@@ -69,6 +52,22 @@ optional arguments:
                         The GPIO pin, where the sensor is connected to
   -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level
+```
+
+## Building and running
+
+You can run the exporter either via python itself or in a docker container. The required commands for running it via python are 
+also in the supplied Makefile. For docker use:
+
+```bash
+$ docker build -t lukasbahr/raspbi-dht22-exporter:<VERSION> -f Dockerfile .
+$ docker tag lukasbahr/raspbi-dht22-exporter:<VERSION> lukasbahr/raspbi-dht22-exporter:<VERSION>
+$ docker run -it -p 9103:9103 lukasbahr/raspbi-dht22-exporter:<VERSION>
+```
+
+or refer to the supplied Makefile.
+
+You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22-exporter:<VERSION>`
 
 ## Open ToDo's
 
@@ -76,3 +75,7 @@ optional arguments:
 - [OPEN] Add unit tests
 - [OPEN] use buildx to create the proper image
 - [OPEN] Add health metric, error metric, scrape interval, general information about exporter etc.
+
+## Further reading
+
+- https://pinout.xyz/pinout/pin7_gpio4
