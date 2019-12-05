@@ -8,7 +8,7 @@ clone:
 steps:
 
   - name: publish
-    image: plugins/docker
+    image: plugins/docker:linux-arm
     settings:
       repo: lukasbahr/raspbi-dht22-exporter
       tags: $DRONE_TAG
