@@ -7,9 +7,9 @@ import time
 import argparse
 import logging
 import socket
-import Adafruit_DHT
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
 from prometheus_client import start_http_server
+import Adafruit_DHT
 
 SENSOR = Adafruit_DHT.DHT22
 LOGFORMAT = "%(asctime)s - %(levelname)s [%(name)s] %(threadName)s %(message)s"
