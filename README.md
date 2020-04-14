@@ -62,17 +62,12 @@ You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22
 
 ## Open ToDo's
 
-<<<<<<< HEAD
 - :x: Add CI/CD Support. The ci process must detect the underlying system as a raspberry pi in order to install AdafruitDHT22
 - :x: Add unit tests
 - :x: use buildx to create the proper image
 - :x: Add health metric, error metric, scrape interval, general information about exporter etc.
-=======
-- [OPEN] Add CI/CD Support. The ci process must detect the underlying system as a raspberry pi in order to install AdafruitDHT22
-- [OPEN] Add unit tests
-- [OPEN] move to [Adafruit_CircuitPython_DHT](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
-- [OPEN] Add health metric, error metric, scrape interval, general information about exporter etc.
->>>>>>> 8faeed2083307e61e6fa86f71c8225690aaedaeb
+- :x: move to [Adafruit_CircuitPython_DHT](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
+- :x: Fix docs for docker-compose and docker run 
 
 ## Further reading
 
