@@ -28,8 +28,9 @@ $ python3 exporter.py --< args[] >
 I've used hypriot os with a RaspberryPi 3B+. It works on a Raspberry Pi 2 too, although docker builds might take some time, so be calm to your Pi.
 
 ```bash
-usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-g GPIOPIN]
-                   [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+python3 src/exporter.py --help
+usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-r RETRIES]
+                   [-g GPIOPIN] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
 
 Prometheus DHT22 sensor exporter
 
@@ -39,6 +40,8 @@ optional arguments:
   -p PORT, --port PORT  The port, the exporter runs on
   -i INTERVAL, --interval INTERVAL
                         The sleep interval of the exporter
+  -r RETRIES, --retries RETRIES
+                        The number of read retries for accurate values
   -g GPIOPIN, --gpiopin GPIOPIN
                         The GPIO pin, where the sensor is connected to
   -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
