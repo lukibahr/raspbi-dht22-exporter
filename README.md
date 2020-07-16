@@ -71,6 +71,31 @@ You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22
 - :x: move to [Adafruit_CircuitPython_DHT](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
 - :x: Fix docs for docker-compose and docker run 
 
+## Troubleshooting
+
+DHT22 sensors are hard to read. If your scrape interval is too high, you might encounter the following error. This error indicates that the socket connection has been closed before the client did. Increase your scrape interval to 60 or 120 seconds - we all hope, that the temperature does not rapidly change its value within this time.
+
+```bash
+dht22-exporter-4zzlm dht22-exporter ----------------------------------------
+dht22-exporter-4zzlm dht22-exporter Exception happened during processing of request from ('10.42.2.74', 36426)
+dht22-exporter-4zzlm dht22-exporter Traceback (most recent call last):
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 654, in process_request_thread
+dht22-exporter-4zzlm dht22-exporter     self.finish_request(request, client_address)
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 364, in finish_request
+dht22-exporter-4zzlm dht22-exporter     self.RequestHandlerClass(request, client_address, self)
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 724, in __init__
+dht22-exporter-4zzlm dht22-exporter     self.handle()
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/http/server.py", line 418, in handle
+dht22-exporter-4zzlm dht22-exporter     self.handle_one_request()
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/http/server.py", line 406, in handle_one_request
+dht22-exporter-4zzlm dht22-exporter     method()
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/site-packages/prometheus_client/exposition.py", line 159, in do_GET
+dht22-exporter-4zzlm dht22-exporter     self.wfile.write(output)
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 803, in write
+dht22-exporter-4zzlm dht22-exporter     self._sock.sendall(b)
+dht22-exporter-4zzlm dht22-exporter BrokenPipeError: [Errno 32] Broken pipe
+```
+
 ## Further reading
 
 - https://pinout.xyz/pinout/pin7_gpio4
