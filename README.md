@@ -1,6 +1,6 @@
 # Prometheus exporter for DHT22 Sensors 
 
-Prometheus Endpoint, written in Python to read DHT11 1wire sensor and exposes temperature values as a prometheus metric.
+Prometheus Endpoint, written in Python to read DHT22 1wire sensor and exposes temperature values as a prometheus metric.
 
 ## Prerequisites - Wiring the sensor
 
