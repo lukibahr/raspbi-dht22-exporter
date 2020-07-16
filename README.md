@@ -45,6 +45,8 @@ optional arguments:
                         Set the logging level
 ```
 
+A sample local run can be the following: `python3 exporter.py --node=localhost --port=9103 --interval=10 --gpiopin=4 --loglevel=DEBUG`
+
 ## Building and running
 
 You can run the exporter either via python itself or in a docker container. The required commands for running it via python are 

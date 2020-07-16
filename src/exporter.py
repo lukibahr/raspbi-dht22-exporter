@@ -43,10 +43,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.loglevel:
         logging.basicConfig(level=getattr(logging, args.loglevel), format=LOGFORMAT)
-    logging.debug("Parsing command line arguments: %s", args)
-    logging.info("Running exporter on port %s", args.port)
+    logging.debug("parsing command line arguments: %s", args)
+    logging.info("running exporter on port %s", args.port)
     start_http_server(args.port)
     REGISTRY.register(CustomCollector(args.node, args.gpiopin))
     while True:
-        logging.debug("Sleeping for %s seconds", args.interval)
+        logging.debug("pausing %s seconds", args.interval)
         time.sleep(args.interval)
