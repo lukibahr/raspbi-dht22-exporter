@@ -24,7 +24,7 @@ class CustomCollector():
 
     def collect(self):
         """collect collects the metrics"""
-        humidity, temperature = Adafruit_DHT.read_retry(SENSOR, self.pin)
+        humidity, temperature = Adafruit_DHT.read_retry(SENSOR, self.pin, retries=5, delay_seconds=2)
         g = GaugeMetricFamily("temperature_in_celcius", 'Temperature in celcuis', labels=['node'])
         g.add_metric([self.node], temperature)
         yield g
