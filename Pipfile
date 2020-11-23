@@ -1,0 +1,8 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Adafruit-DHT = "1.4.0"
+prometheus-client = "0.8.0"

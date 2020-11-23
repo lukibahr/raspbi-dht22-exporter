@@ -1,10 +1,14 @@
 # Prometheus exporter for DHT22 Sensors 
 
+<<<<<<< HEAD
 [![Build Status](https://ci.devopoly.de/api/badges/lukibahr/raspbi-temperature-exporter/status.svg)](https://ci.devopoly.de/lukibahr/raspbi-temperature-exporter) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 
 
 Prometheus Endpoint, written in Python to read DHT11 1wire sensor and exposes temperature values as a prometheus metric.
+=======
+Prometheus Endpoint, written in Python to read DHT22 1wire sensor and exposes temperature values as a prometheus metric.
+>>>>>>> 100a4f5f6bdefd9ef07d875f67c2146c95e0b092
 
 ## Prerequisites - Wiring the sensor
 
@@ -32,8 +36,9 @@ $ python3 exporter.py --< args[] >
 I've used hypriot os with a RaspberryPi 3B+. It works on a Raspberry Pi 2 too, although docker builds might take some time, so be calm to your Pi.
 
 ```bash
-usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-g GPIOPIN]
-                   [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+python3 src/exporter.py --help
+usage: exporter.py [-h] [-n NODE] [-p PORT] [-i INTERVAL] [-r RETRIES]
+                   [-g GPIOPIN] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
 
 Prometheus DHT22 sensor exporter
 
@@ -43,11 +48,15 @@ optional arguments:
   -p PORT, --port PORT  The port, the exporter runs on
   -i INTERVAL, --interval INTERVAL
                         The sleep interval of the exporter
+  -r RETRIES, --retries RETRIES
+                        The number of read retries for accurate values
   -g GPIOPIN, --gpiopin GPIOPIN
                         The GPIO pin, where the sensor is connected to
   -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level
 ```
+
+A sample local run can be the following: `python3 exporter.py --node=localhost --port=9103 --interval=10 --gpiopin=4 --loglevel=DEBUG`
 
 ## Building and running
 
@@ -66,17 +75,37 @@ You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22
 
 ## Open ToDo's
 
-<<<<<<< HEAD
 - :x: Add CI/CD Support. The ci process must detect the underlying system as a raspberry pi in order to install AdafruitDHT22
 - :x: Add unit tests
 - :x: use buildx to create the proper image
 - :x: Add health metric, error metric, scrape interval, general information about exporter etc.
-=======
-- [OPEN] Add CI/CD Support. The ci process must detect the underlying system as a raspberry pi in order to install AdafruitDHT22
-- [OPEN] Add unit tests
-- [OPEN] move to [Adafruit_CircuitPython_DHT](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
-- [OPEN] Add health metric, error metric, scrape interval, general information about exporter etc.
->>>>>>> 8faeed2083307e61e6fa86f71c8225690aaedaeb
+- :x: move to [Adafruit_CircuitPython_DHT](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
+- :x: Fix docs for docker-compose and docker run 
+
+## Troubleshooting
+
+DHT22 sensors are hard to read. If your scrape interval is too high, you might encounter the following error. This error indicates that the socket connection has been closed before the client did. Increase your scrape interval to 60 or 120 seconds - we all hope, that the temperature does not rapidly change its value within this time.
+
+```bash
+dht22-exporter-4zzlm dht22-exporter ----------------------------------------
+dht22-exporter-4zzlm dht22-exporter Exception happened during processing of request from ('10.42.2.74', 36426)
+dht22-exporter-4zzlm dht22-exporter Traceback (most recent call last):
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 654, in process_request_thread
+dht22-exporter-4zzlm dht22-exporter     self.finish_request(request, client_address)
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 364, in finish_request
+dht22-exporter-4zzlm dht22-exporter     self.RequestHandlerClass(request, client_address, self)
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 724, in __init__
+dht22-exporter-4zzlm dht22-exporter     self.handle()
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/http/server.py", line 418, in handle
+dht22-exporter-4zzlm dht22-exporter     self.handle_one_request()
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/http/server.py", line 406, in handle_one_request
+dht22-exporter-4zzlm dht22-exporter     method()
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/site-packages/prometheus_client/exposition.py", line 159, in do_GET
+dht22-exporter-4zzlm dht22-exporter     self.wfile.write(output)
+dht22-exporter-4zzlm dht22-exporter   File "/usr/lib/python3.6/socketserver.py", line 803, in write
+dht22-exporter-4zzlm dht22-exporter     self._sock.sendall(b)
+dht22-exporter-4zzlm dht22-exporter BrokenPipeError: [Errno 32] Broken pipe
+```
 
 ## Further reading
 

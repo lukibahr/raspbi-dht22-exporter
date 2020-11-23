@@ -1,9 +1,9 @@
 FROM hypriot/rpi-alpine:3.6
 
-RUN apk update && apk add python3 gcc python3-dev libc-dev
+RUN apk add python3 gcc python3-dev libc-dev --no-cache
 
 WORKDIR "/exporter"
-ADD src .
-RUN pip3 install prometheus_client Adafruit_DHT
+COPY src .
+RUN pip3 install -r requirements.txt
 
 ENTRYPOINT ["python3", "exporter.py"]
