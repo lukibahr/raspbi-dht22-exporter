@@ -1,18 +1,28 @@
 # Prometheus exporter for DHT22 Sensors 
 
-<<<<<<< HEAD
 [![Build Status](https://ci.devopoly.de/api/badges/lukibahr/raspbi-temperature-exporter/status.svg)](https://ci.devopoly.de/lukibahr/raspbi-temperature-exporter) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
-
-
 Prometheus Endpoint, written in Python to read DHT11 1wire sensor and exposes temperature values as a prometheus metric.
-=======
-Prometheus Endpoint, written in Python to read DHT22 1wire sensor and exposes temperature values as a prometheus metric.
->>>>>>> 100a4f5f6bdefd9ef07d875f67c2146c95e0b092
 
 ## Prerequisites - Wiring the sensor
 
-t.b.d.
+I bought the sensor from Amazn which is shipped with the following board attached
+
+![image](docs/sensor-board.png )
+
+We need three Pins from the Raspberry Pi GPIO board:
+
+VCC will be attached to the voltage pin. Sometimes, 3.3V wasn't enough so 5V should be the way to go.
+
+![image](docs/GPIO-Pinout-Diagram-2.png)
+
+You can refer to the following wiring as an example:
+
+| board pin | raspberry pin |
+|---|---|
+|VCC|Pin2, 5V Power|
+|DATA|Pin7, GPIO4 (GPCLK0)|
+|Ground|Pin6, Ground|
 
 ## Implementation
 
@@ -79,8 +89,6 @@ You can also download it from docker hub via `docker pull lukasbahr/raspbi-dht22
 - :x: Add unit tests
 - :x: use buildx to create the proper image
 - :x: Add health metric, error metric, scrape interval, general information about exporter etc.
-- :x: move to [Adafruit_CircuitPython_DHT](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
-- :x: Fix docs for docker-compose and docker run 
 
 ## Troubleshooting
 
